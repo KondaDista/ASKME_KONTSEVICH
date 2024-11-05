@@ -19,5 +19,11 @@ from django.urls import path
 from VK_Education_Django import views
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("index", views.index, name="index"),
+    path("new-question", views.newQuestion, name="newQuestion"),
+    path("question", views.question, name="question"),
+    path("search-question", views.searchQuestion, name="searchQuestion"),
+    path("login", views.logIn, name="logIn"),
+    path("registration", views.registration, name="registration"),
+    path("user-profile", views.userProfile, name="userProfile"),
 ]
