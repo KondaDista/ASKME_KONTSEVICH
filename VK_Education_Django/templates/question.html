@@ -4,54 +4,107 @@
 
 {% block content %}
     <div class="col content ">
-        <div class="d-flex gap-3 align-items-center">
-            <h1>Question</h1>
-        </div>
+        <div class="gap-3">
 
-        <div class="d-flex flex-column gap-3 border-2 border border-start-0 border-end-0 border-warning-subtle pt-3 pb-3">
-            <div class="card w-100" style="width: 18rem;">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="border mb-2" style="height: 100px">
-                                <img src="" alt="Avatar" class="img-fluid">
+            <div class="pt-3 pb-2">
+                <div class="w-100" style="width: 18rem;">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-2 me-2">
+                                <div class="object-fit-scale border rounded p-1 border mb-2"
+                                     style="width: 7rem; height: 7rem">
+                                    <img src="" alt="Avatar" class="img-fluid">
+                                </div>
+                                <input class="form-control" type="number" value="5" placeholder="Default input"
+                                       aria-label="default input example" style="width: 7rem">
                             </div>
-                            <input class="form-control" type="number" value="5" placeholder="Default input"
-                                   aria-label="default input example">
-                        </div>
-                        <div class="col-9 row gap-4">
-                            <label class="card-text col-12 align-self-start">Some quick example text to build on the
-                                card title and make up the bulk of the card's content.</label>
-                            <div class="col align-self-end">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">Answer</label>
+                            <div class="col-9 row gap-2">
+                                <h3>Popular Tags</h3>
+                                <label class="card-text col-12 align-self-start">Loren ipsum - dolor sit amet, concuted.
+                                    Some quick example text to build on the card title and make up the bulk of the
+                                    card's content. Some quick example text to build on the card title and make up the
+                                    bulk of the card's content. Some quick example text to build on the card title and
+                                    make up the bulk of the card's content.</label>
+                                <div class="col align-self-end mt-3">
+                                    <div class="tagsQuestion">
+                                        <section class="mb-3">
+                                            <div>
+                                                <a>Tags: </a>
+                                                <button class="badge text-bg-primary">Primary</button>
+                                                <button class="badge text-bg-info">Info</button>
+                                                <button class="badge text-bg-dark">Dark</button>
+                                            </div>
+                                        </section>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card w-100" style="width: 18rem;">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="border mb-2" style="height: 100px">
-                                <img src="" alt="Avatar" class="img-fluid">
+
+            <div class="d-flex flex-column gap-3 border-3 border border-start-0 border-end-0 border-warning-subtle pt-4 pb-4">
+                <div class="card w-100" style="width: 18rem;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="object-fit-scale border rounded p-1 border me-3 mb-2"
+                                     style="width: 4.5rem; height: 4.5rem">
+                                    <img src="" alt="Avatar" class="img-fluid">
+                                </div>
+                                <input class="form-control" type="number" value="5" placeholder="Default input"
+                                       aria-label="default input example" style="width: 4.5rem">
                             </div>
-                            <input class="form-control" type="number" value="5" placeholder="Default input"
-                                   aria-label="default input example">
-                        </div>
-                        <div class="col-9 row gap-4">
-                            <label class="card-text col-12 align-self-start">Some quick example text to build on the
-                                card title and make up the bulk of the card's content.</label>
-                            <div class="col align-self-end">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">Answer</label>
+                            <div class="col-10 row gap-4">
+                                <label class="card-text col-12 align-self-start">Some quick example text to build on the
+                                    card title and make up the bulk of the card's content. Some quick example text to
+                                    build on the
+                                    card title and make up the bulk of the card's content.</label>
+                                <div class="col align-self-end">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">Answer</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="card w-100" style="width: 18rem;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="object-fit-scale border rounded p-1 border me-3 mb-2"
+                                     style="width: 4.5rem; height: 4.5rem">
+                                    <img src="" alt="Avatar" class="img-fluid">
+                                </div>
+                                <input class="form-control" type="number" value="5" placeholder="Default input"
+                                       aria-label="default input example" style="width: 4.5rem">
+                            </div>
+                            <div class="col-10 row gap-4">
+                                <label class="card-text col-12 align-self-start">Some quick example text to build on the
+                                    card title and make up the bulk of the card's content.</label>
+                                <div class="col align-self-end">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">Answer</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column gap-3 pt-3">
+                <div class="col row">
+                    <div>
+                    <textarea class="form-control" id="exampleFormControlAnswerArea" rows="7" placeholder="Enter your answer here..."></textarea>
+                    </div>
+                </div>
+                <div class="col align-self-start">
+                    <div>
+                        <button class="btn btn-primary">Answer</button>
                     </div>
                 </div>
             </div>
