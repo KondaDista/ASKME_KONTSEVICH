@@ -1,6 +1,13 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
 
 {% block title %}StakL{% endblock %}
+
+{% block profileNavbar %}
+    <div>
+        <a href="{% url 'logIn' %}" class="btn-sm btn btn-outline-success">Log In</a>
+        <a href="{% url 'registration' %}" class="btn-sm btn btn-outline-primary">Registration</a>
+    </div>
+{% endblock %}
 
 {% block content %}
     <div class="col content">
@@ -67,7 +74,7 @@
                 <div class="row mb-3">
                     <a class="col-sm-2 col-form-label"></a>
                     <div class="col-sm-2 vstack gap-2 col-md-5 mx-auto">
-                        <button class="col-sm-5 btn btn-success" type="register">Register</button>
+                        <a class="col-sm-5 btn btn-success" type="register">Register</a>
                     </div>
                 </div>
             </form>

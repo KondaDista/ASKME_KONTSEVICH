@@ -19,11 +19,12 @@ from django.urls import path
 from VK_Education_Django import views
 
 urlpatterns = [
-    path("index", views.index, name="index"),
-    path("new-question", views.newQuestion, name="newQuestion"),
-    path("question", views.question, name="question"),
-    path("search-question", views.searchQuestion, name="searchQuestion"),
-    path("login", views.logIn, name="logIn"),
-    path("registration", views.registration, name="registration"),
-    path("user-profile", views.userProfile, name="userProfile"),
+    path("", views.index, name="index"),
+    path('hot/', views.hotQuestion, name="hotQuestion"),
+    path("ask/", views.newQuestion, name="newQuestion"),
+    path("question/<int:question_id>", views.question, name="question"),
+    path("tag/<str:tag_name>", views.tagQuestion, name="searchQuestion"),
+    path("user-profile/<str:user_name>", views.userProfile, name="userProfile"),
+    path("login/", views.logIn, name="logIn"),
+    path("signup/", views.registration, name="registration"),
 ]
