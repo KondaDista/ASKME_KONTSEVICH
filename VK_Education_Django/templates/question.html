@@ -18,20 +18,16 @@
                                        aria-label="default input example" style="width: 7rem">
                             </div>
                             <div class="col-9 row gap-2">
-                                <h3>Popular Tags</h3>
-                                <label class="card-text col-12 align-self-start">Loren ipsum - dolor sit amet, concuted.
-                                    Some quick example text to build on the card title and make up the bulk of the
-                                    card's content. Some quick example text to build on the card title and make up the
-                                    bulk of the card's content. Some quick example text to build on the card title and
-                                    make up the bulk of the card's content.</label>
+                                <h3>{{ questionItem.title }}</h3>
+                                <label class="card-text col-12 align-self-start">{{ questionItem.description }}</label>
                                 <div class="col align-self-end mt-3">
                                     <div class="tagsQuestion">
                                         <section class="mb-3">
                                             <div>
                                                 <a>Tags: </a>
-                                                <button class="badge text-bg-primary">Primary</button>
-                                                <button class="badge text-bg-info">Info</button>
-                                                <button class="badge text-bg-dark">Dark</button>
+                                                {% for tag in questionItem.tags %}
+                                                    <a class="badge text-bg-light" href="{% url 'searchByTagQuestion' tag.name %}" >{{ tag.name }}</a>
+                                                {% endfor %}
                                             </div>
                                         </section>
                                     </div>

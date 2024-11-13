@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'VK_Education_Django.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "mydatabase",
-        "USER": "mydatabaseuser",
-        "PASSWORD": "mypassword",
-        "HOST": "127.0.0.1",
+        "NAME": "StackL",
+        "USER": "KondaDista",
+        "PASSWORD": "3232",
+        "HOST": "localhost",
         "PORT": "5432",
     }
 }

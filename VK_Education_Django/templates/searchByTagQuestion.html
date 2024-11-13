@@ -1,19 +1,18 @@
 {% extends "layouts/base.html" %}
-{% load static %}
+
 {% block title %}StackL{% endblock %}
 
 {% block content %}
     <div class="col content">
         <div class="d-flex gap-3 align-items-center">
-            <h1>New Questions</h1>
-            <a href="{% url 'hotQuestion' %}">Hot Questions</a>
+            <h1>Tag: {{ tag }}</h1>
         </div>
         <div class="d-flex flex-column gap-3">
             {% for question in questions %}
                 {% include 'layouts/cardQuestion.html' %}
             {% endfor %}
         </div>
-    
+
         <nav aria-label="Page navigation">
             {% include 'layouts/pagination.html' %}
         </nav>
