@@ -5,27 +5,35 @@ from django.db.models import Count
 
 class QuestionManager(models.Manager):
     def get_all_questions(self):
-        return self.all().annotate(num_answers = Count('answer'))
+        return self.all().annotate(num_answers=Count('answer')).annotate(likes_count=Count('likequestion'))
 
     def get_question(self, question_id):
-        return self.filter(id__exact = question_id).first()
+        return self.filter(id__exact=question_id).first()
 
     def get_questions_by_tag(self, tag_name):
-        return self.filter(tags__name__exact = tag_name)
+        return self.filter(tags__name__exact=tag_name)
 
     def get_new_questions(self):
         return self.filter(status__contains='new')
 
     def get_hot_questions(self):
-        return self.filter(status__contains='hot')
+        return QuestionManager.get_all_questions(self).order_by('-likes_count')
 
     def get_tags(self):
-        return TagQuestion.objects.filter(status__contains='hot')
+        return TagQuestion.objects
+
+    def get_likes(self):
+        return LikeQuestion.objects
 
 
 class AnswerManager(models.Manager):
     def get_answer_by_question(self, question_id):
-        return self.filter(id_question__id__exact = question_id)
+        return self.filter(question__id__exact=question_id)
+
+
+class LikeManager(models.Manager):
+    def get_likes(self):
+        return LikeQuestion.objects
 
 
 class Profile(models.Model):
@@ -41,7 +49,6 @@ class Profile(models.Model):
 
 
 class TagQuestion(models.Model):
-    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -49,15 +56,10 @@ class TagQuestion(models.Model):
 
 
 class Question(models.Model):
-    STATUS_CHOICES = [
-        ('new', 'New Question'),
-        ('hot', 'Hot Question'),
-    ]
     id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    status = models.CharField(max_length=255, choices=STATUS_CHOICES)
-    id_user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     tags = models.ManyToManyField(TagQuestion)
 
     objects = QuestionManager()
@@ -67,50 +69,63 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    id = models.IntegerField(primary_key=True)
     text = models.CharField(max_length=255)
-    id_question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    is_answered = models.BooleanField()
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answered = models.BooleanField()
 
     objects = AnswerManager()
 
     def __str__(self):
-        return str(self.id_question) + " => AnswerID = " + str(self.id)
+        return str(self.question) + " => AnswerID = " + str(self.id)
 
 
 class LikeQuestion(models.Model):
-    id = models.IntegerField(primary_key=True)
-    id_question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    id_user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    objects = LikeManager()
 
     class Meta:
-        unique_together = ('id_question', 'id_user')
+        unique_together = ('question', 'user')
 
     def __str__(self):
-        return str(self.id_question) + " => UserID = " + str(self.id_user)
+        return str(self.question) + " => UserID = " + str(self.user)
 
 
 class LikeAnswer(models.Model):
-    id = models.IntegerField(primary_key=True)
-    id_answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-    id_user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    objects = LikeManager()
 
     class Meta:
-        unique_together = ('id_answer', 'id_user')
+        unique_together = ('answer', 'user')
 
     def __str__(self):
-        return str(self.id_answer) + " => UserID = " + str(self.id_user)
+        return str(self.answer) + " => UserID = " + str(self.user)
 
-# class QuestionTag(models.Model):
-#     id_question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     id_tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-#
-#
-# class QuestionLike(models.Model):
-#     id_question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     id_like = models.ForeignKey(Like, on_delete=models.CASCADE)
-#
-#
-# class AnswerLike(models.Model):
-#     id_answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-#     id_like = models.ForeignKey(Like, on_delete=models.CASCADE)
+
+class DislikeQuestion(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    objects = LikeManager()
+
+    class Meta:
+        unique_together = ('question', 'user')
+
+    def __str__(self):
+        return str(self.question) + " => UserID = " + str(self.user)
+
+
+class DislikeAnswer(models.Model):
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    objects = LikeManager()
+
+    class Meta:
+        unique_together = ('answer', 'user')
+
+    def __str__(self):
+        return str(self.answer) + " => UserID = " + str(self.user)

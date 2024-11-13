@@ -8,7 +8,7 @@
                     <img src={% static 'image/KondaCat.jpg' %} alt="imageQuestion"
                          class="img-fluid rounded">
                 </div>
-                <input class="form-control" type="number" value="5" placeholder="Default input"
+                <input class="form-control" type="number" value="{{ question.likes_count }}" placeholder="Default input"
                        aria-label="default input example">
 
             </div>
@@ -16,8 +16,8 @@
                 <h4 class="card-title">
                     <a href="{% url 'question' question.id %}">{{ question.title }}</a>
                 </h4>
-                <div class="col-12 row gap-3">
-                    <label class="card-text col-12 align-self-start">{{ question.description }}</label>
+                <div class="col row gap-3">
+                    <label class="col align-self-start">{{ question.description }}</label>
                     <div class="col align-self-end d-flex gap-3">
                         <label class="card-text col-3">Answer ({{ question.num_answers }})</label>
                         <div>

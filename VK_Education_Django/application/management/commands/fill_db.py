@@ -1,22 +1,76 @@
+from random import choice, choices, randint
+from string import ascii_letters
+
+from django.contrib.auth.models import User
 from django.core.management import BaseCommand
+from django.utils.crypto import get_random_string
 
-QUESTIONS = [
-    {
-        'title': f'Help Title-{i}',
-        'id': i,
-        'text': f'Some text for question number-{i}'
-    }
-    for i in range(1, 25)
-]
+from application.models import Question, Answer, Profile, TagQuestion, LikeQuestion, LikeAnswer
 
-ANSWERS = [
-    {
-        'id': i,
-        'text': f'Some quick example text to build on the card title and make up the bulk of the cards content. Some quick example text to build on the card title and make up the bulk of the cards content. Number-{i}'
-    }
-    for i in range(1, 42)
-]
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument('ratio', type=int, default=5)
+
     def handle(self, *args, **options):
-        print("HI")
+        ratio = options['ratio']
+
+        bulk_users = [
+            User(username='user-' + get_random_string(randint(1, 5), ascii_letters),
+                 email='user@mail.com',
+                 password='3232')
+            for _ in range(ratio)
+        ]
+        User.objects.bulk_create(bulk_users)
+
+        bulk_profiles = [
+            Profile(id = item.id,
+                    user=item,
+                    login=item.username,
+                    nickname=item.username,
+                    email=item.email)
+            for item in bulk_users
+        ]
+        Profile.objects.bulk_create(bulk_profiles)
+        profiles = Profile.objects.all()
+
+        bulk_tags = [
+            TagQuestion(name=get_random_string(randint(3, 10), ascii_letters))
+            for _ in range(ratio)
+        ]
+        TagQuestion.objects.bulk_create(bulk_tags)
+        tags = TagQuestion.objects.all()
+
+        bulk_questions = [
+            Question(id = item,
+                     title=get_random_string(randint(5, 25), ascii_letters),
+                     description=get_random_string(randint(50, 200), ascii_letters),
+                     user= choice(profiles))
+            for item in range(ratio * 10)
+        ]
+        Question.objects.bulk_create(bulk_questions)
+        questions = Question.objects.all()
+
+        for question in questions:
+            question.tags.set(choices(tags, k=randint(1, 8)))
+            bulk_answer = [
+                Answer(text=get_random_string(randint(50, 150), ascii_letters),
+                       question=question)
+                for _ in range(randint(7, 18))
+            ]
+            Answer.objects.bulk_create(bulk_answer)
+        answers = Answer.objects.all()
+
+        bulk_questions_likes = [
+            LikeQuestion(question=choice(questions),
+                         user=choice(profiles))
+            for _ in range(ratio * 100)
+        ]
+        LikeQuestion.objects.bulk_create(bulk_questions_likes)
+
+        bulk_answer_likes = [
+            LikeAnswer(answer=choice(answers),
+                       user=choice(profiles))
+            for _ in range(ratio * 100)
+        ]
+        LikeAnswer.objects.bulk_create(bulk_answer_likes)
