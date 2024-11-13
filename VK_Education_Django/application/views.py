@@ -1,11 +1,10 @@
-from django.db.models import Count
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from application.models import Question, Answer
 
 
 def index(request):
-    questions = Question.objects.all().annotate(num_answers = Count('answer'))
+    questions = Question.objects.get_all_questions()
     page = paginate(questions)
     return render(
         request, 'index.html',
@@ -13,7 +12,7 @@ def index(request):
 
 
 def hotQuestion(request):
-    hot_questions = Question.objects.get_hot_question()
+    hot_questions = Question.objects.get_hot_questions()
     page = paginate(hot_questions)
     return render(
         request, 'hot.html',
@@ -21,7 +20,7 @@ def hotQuestion(request):
 
 
 def question(request, question_id):
-    currentQuestion = Question.objects.filter(id__exact = question_id).first()
+    currentQuestion = Question.objects.get_question(question_id)
     answers = Answer.objects.get_answer_by_question(question_id)
     page = paginate(answers, 4)
     return render(
@@ -34,7 +33,7 @@ def ask(request):
 
 
 def tagQuestion(request, tag_name):
-    questions = Question.objects.filter(tags__name__exact = tag_name)
+    questions = Question.objects.get_questions_by_tag(tag_name)
     return render(
         request, 'searchByTagQuestion.html',
         context={'questions': questions, 'tag': tag_name})

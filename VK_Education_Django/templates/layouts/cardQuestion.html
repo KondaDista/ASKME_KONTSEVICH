@@ -22,7 +22,7 @@
                         <label class="card-text col-3">Answer ({{ question.num_answers }})</label>
                         <div>
                             Tags:
-                            {% for tag in questionItem.tags %}
+                            {% for tag in question.tags.all %}
                                 <a class="badge text-bg-light" href="{% url 'searchByTagQuestion' tag.name %}" >{{ tag.name }}</a>
                             {% endfor %}
                         </div>

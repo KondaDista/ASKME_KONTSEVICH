@@ -25,7 +25,7 @@
                                         <section class="mb-3">
                                             <div>
                                                 <a>Tags: </a>
-                                                {% for tag in questionItem.tags %}
+                                                {% for tag in questionItem.tags.all %}
                                                     <a class="badge text-bg-light" href="{% url 'searchByTagQuestion' tag.name %}" >{{ tag.name }}</a>
                                                 {% endfor %}
                                             </div>

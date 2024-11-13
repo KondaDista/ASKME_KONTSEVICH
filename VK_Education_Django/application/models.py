@@ -1,12 +1,22 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Count
 
 
 class QuestionManager(models.Manager):
-    def get_new_question(self):
+    def get_all_questions(self):
+        return self.all().annotate(num_answers = Count('answer'))
+
+    def get_question(self, question_id):
+        return self.filter(id__exact = question_id).first()
+
+    def get_questions_by_tag(self, tag_name):
+        return self.filter(tags__name__exact = tag_name)
+
+    def get_new_questions(self):
         return self.filter(status__contains='new')
 
-    def get_hot_question(self):
+    def get_hot_questions(self):
         return self.filter(status__contains='hot')
 
     def get_tags(self):
