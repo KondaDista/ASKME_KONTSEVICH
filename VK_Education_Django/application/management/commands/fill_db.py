@@ -16,7 +16,7 @@ class Command(BaseCommand):
         ratio = options['ratio']
 
         bulk_users = [
-            User(username='user-' + get_random_string(randint(1, 5), ascii_letters),
+            User(username='user-' + get_random_string(randint(5, 30), ascii_letters),
                  email='user@mail.com',
                  password='3232')
             for _ in range(ratio)
@@ -61,16 +61,12 @@ class Command(BaseCommand):
             Answer.objects.bulk_create(bulk_answer)
         answers = Answer.objects.all()
 
-        bulk_questions_likes = [
-            LikeQuestion(question=choice(questions),
-                         user=choice(profiles))
-            for _ in range(ratio * 100)
-        ]
-        LikeQuestion.objects.bulk_create(bulk_questions_likes)
+        for _ in range(ratio * 100):
+            question = choice(questions)
+            user = choice(profiles)
+            LikeQuestion.objects.get_or_create(question=question, user=user)
 
-        bulk_answer_likes = [
-            LikeAnswer(answer=choice(answers),
-                       user=choice(profiles))
-            for _ in range(ratio * 100)
-        ]
-        LikeAnswer.objects.bulk_create(bulk_answer_likes)
+        for _ in range(ratio * 100):
+            answer = choice(answers)
+            user = choice(profiles)
+            LikeAnswer.objects.get_or_create(answer=answer, user=user)

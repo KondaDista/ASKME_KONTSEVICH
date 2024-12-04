@@ -54,14 +54,13 @@ def userProfile(request, user_name):
 
 
 def paginate(request, query_list, per_page=5):
-    pageNum = int(request.GET.get('page', 1))
+    pageNum = request.GET.get('page', 1)
+    print(pageNum)
     paginator = Paginator(query_list, per_page)
     try:
-        return paginator.get_page(pageNum)  # returns the desired page object
+        return paginator.get_page(pageNum)
     except PageNotAnInteger:
-        # if page_number is not an integer then assign the first page
         return paginator.page(1)
     except EmptyPage:
-        # if page is empty then return last page
         return paginator.page(paginator.num_pages)
 

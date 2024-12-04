@@ -5,7 +5,9 @@ from django.db.models import Count
 
 class QuestionManager(models.Manager):
     def get_all_questions(self):
-        return self.all().annotate(num_answers=Count('answer')).annotate(likes_count=Count('likequestion'))
+        return (self.all()
+                .annotate(answer_count=Count('answer', distinct=True),
+                          likes_count=Count('likequestion', distinct=True)))
 
     def get_question(self, question_id):
         return self.filter(id__exact=question_id).first()
@@ -71,7 +73,7 @@ class Question(models.Model):
 class Answer(models.Model):
     text = models.CharField(max_length=255)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answered = models.BooleanField()
+    answered = models.BooleanField(default = False)
 
     objects = AnswerManager()
 
@@ -79,7 +81,7 @@ class Answer(models.Model):
         return str(self.question) + " => AnswerID = " + str(self.id)
 
 
-class LikeQuestion(models.Model):
+class LikeQuestion(models.Model): # Добавить тип для лайков (Like, Dislice), при убирании лайка или дизлайка удалаять запись, потом считать их как (лайки - дизлайки)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
@@ -105,27 +107,27 @@ class LikeAnswer(models.Model):
         return str(self.answer) + " => UserID = " + str(self.user)
 
 
-class DislikeQuestion(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-    objects = LikeManager()
-
-    class Meta:
-        unique_together = ('question', 'user')
-
-    def __str__(self):
-        return str(self.question) + " => UserID = " + str(self.user)
-
-
-class DislikeAnswer(models.Model):
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-    objects = LikeManager()
-
-    class Meta:
-        unique_together = ('answer', 'user')
-
-    def __str__(self):
-        return str(self.answer) + " => UserID = " + str(self.user)
+# class DislikeQuestion(models.Model):
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+#     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+#
+#     objects = LikeManager()
+#
+#     class Meta:
+#         unique_together = ('question', 'user')
+#
+#     def __str__(self):
+#         return str(self.question) + " => UserID = " + str(self.user)
+#
+#
+# class DislikeAnswer(models.Model):
+#     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+#     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+#
+#     objects = LikeManager()
+#
+#     class Meta:
+#         unique_together = ('answer', 'user')
+#
+#     def __str__(self):
+#         return str(self.answer) + " => UserID = " + str(self.user)

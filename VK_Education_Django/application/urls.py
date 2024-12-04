@@ -27,5 +27,4 @@ urlpatterns = [
     path("user-profile/<str:user_name>", views.userProfile, name="userProfile"),
     path("login/", views.logIn, name="logIn"),
     path("signup/", views.registration, name="registration"),
-    path('admin/', admin.site.urls),
 ]
